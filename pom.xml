@@ -9,13 +9,74 @@
     <version>${revision}${sha1}${changelist}</version>
     <name>spel-builder</name>
     <packaging>jar</packaging>
-    <description>Easy building of SpEL</description>
+    <description>A facilitator for creating Spring expressions (SpEL).</description>
+    <url>https://github.com/paulosalonso/spel-builder</url>
+
+    <developers>
+        <developer>
+            <id>paulosalonso</id>
+            <name>Paulo Silas Alonso</name>
+            <email>paulo_alonso_@hotmail.com</email>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>GNU General Public License v3.0</name>
+            <url>https://github.com/paulosalonso/spel-builder/blob/master/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <scm>
+        <url>https://github.com/paulosalonso/spel-builder.git</url>
+        <connection>scm:git:https://github.com/paulosalonso/spel-builder.git</connection>
+        <developerConnection>scm:git:https://github.com/paulosalonso/spel-builder.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <properties>
+        <junit.version>4.13</junit.version>
+        <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <skip.signature>true</skip.signature>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>release</id>
+            <properties>
+                <skip.signature>false</skip.signature>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -23,12 +84,59 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${nexus-staging-maven-plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven-gpg-plugin.version}</version>
+                <configuration>
+                    <skip>${skip.signature}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <homedir>${gpg.homedir}</homedir>
+                            <passphrase>${gpg.passphrase}</passphrase>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>9</source>
-                    <target>9</target>
+                    <source>13</source>
+                    <target>13</target>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -71,4 +71,50 @@ public class BeanTest {
         assertEquals("@someBeanName.someInstanceMethod('ENUM_CONSTANT_A', 'ENUM_CONSTANT_B')", spel);
     }
 
+    @Test
+    public void testAndChainedMethodCallFromBeanBuild() {
+        String spel = bean("someBeanName")
+                .method("firstChainMethod")
+                .and()
+                .method("secondChainMethod")
+                .build();
+
+        assertEquals("@someBeanName.firstChainMethod() and @someBeanName.secondChainMethod()", spel);
+    }
+
+    @Test
+    public void testAndChainedMethodCallWithParametersFromBeanBuild() {
+        String spel = bean("someBeanName")
+                .method("firstChainMethod", stringParameter("parameterA"))
+                .and()
+                .method("secondChainMethod", stringParameter("parameterA"), stringParameter("parameterB"))
+                .build();
+
+        assertEquals("@someBeanName.firstChainMethod('parameterA') and @someBeanName.secondChainMethod('parameterA', 'parameterB')", spel);
+    }
+
+    @Test
+    public void testOrChainedMethodCallFromBeanBuild() {
+        String spel = bean("someBeanName")
+                .method("firstChainMethod")
+                .or()
+                .method("secondChainMethod")
+                .build();
+
+        assertEquals("@someBeanName.firstChainMethod() or @someBeanName.secondChainMethod()", spel);
+    }
+
+    @Test
+    public void testBothOperatorsChainedMethodCallFromBeanBuild() {
+        String spel = bean("someBeanName")
+                .method("firstChainMethod")
+                .and()
+                .method("secondChainMethod")
+                .or()
+                .method("thirdChainMethod")
+                .build();
+
+        assertEquals("@someBeanName.firstChainMethod() and @someBeanName.secondChainMethod() or @someBeanName.thirdChainMethod()", spel);
+    }
+
 }

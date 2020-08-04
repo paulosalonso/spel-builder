@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static com.github.paulosalonso.spel.builder.Bean.bean;
 import static com.github.paulosalonso.spel.builder.ContextVariable.contextVariable;
+import static com.github.paulosalonso.spel.builder.IsAuthenticated.isAuthenticated;
 import static org.junit.Assert.assertEquals;
 
 public class LogicalAndGroupedExpressionsTest {
@@ -25,6 +26,13 @@ public class LogicalAndGroupedExpressionsTest {
                 .build();
 
         assertEquals("@someBeanName.someMethod() || #someContextVariableName.someMethod()", spel);
+    }
+
+    @Test
+    public void testGroupedExpressionBuilder() {
+        String spel = isAuthenticated().group().build();
+
+        assertEquals("(isAuthenticated())", spel);
     }
 
     @Test

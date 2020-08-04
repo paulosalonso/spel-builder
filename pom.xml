@@ -49,6 +49,12 @@
         <junit.version>4.13</junit.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <jacoco.version>0.8.5</jacoco.version>
+        <pitest-maven.version>1.5.1</pitest-maven.version>
+
+        <line.coverage>1</line.coverage>
+        <branch.coverage>1</branch.coverage>
+        <mutation.threshold>100</mutation.threshold>
     </properties>
 
     <profiles>
@@ -59,6 +65,7 @@
             </activation>
             <properties>
                 <skip.signature>true</skip.signature>
+                <skip.mutation>false</skip.mutation>
             </properties>
         </profile>
 
@@ -66,6 +73,7 @@
             <id>release</id>
             <properties>
                 <skip.signature>false</skip.signature>
+                <skip.mutation>false</skip.mutation>
             </properties>
         </profile>
     </profiles>
@@ -133,6 +141,85 @@
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>${pitest-maven.version}</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>mutationCoverage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>${skip.mutation}</skip>
+                    <mutationThreshold>${mutation.threshold}</mutationThreshold>
+                    <targetClasses>
+                        <param>com.github.paulosalonso.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>com.github.paulosalonso.*</param>
+                    </targetTests>
+                    <excludedTestClasses>
+                        <param>*IT</param>
+                        <param>*NoMutation</param>
+                    </excludedTestClasses>
+                    <avoidCallsTo>
+                        <avoidCallsTo>java.util.logging</avoidCallsTo>
+                        <avoidCallsTo>org.apache.log4j</avoidCallsTo>
+                        <avoidCallsTo>org.slf4j</avoidCallsTo>
+                        <avoidCallsTo>org.apache.commons.logging</avoidCallsTo>
+                    </avoidCallsTo>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>${line.coverage}</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>${branch.coverage}</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

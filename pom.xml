@@ -4,7 +4,7 @@
 
     <groupId>com.github.paulosalonso</groupId>
     <artifactId>spel-builder</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.1</version>
     <name>spel-builder</name>
     <packaging>jar</packaging>
     <description>A facilitator for creating Spring expressions (SpEL).</description>
@@ -42,7 +42,7 @@
         <url>https://github.com/paulosalonso/spel-builder.git</url>
         <connection>scm:git:https://github.com/paulosalonso/spel-builder.git</connection>
         <developerConnection>scm:git:https://github.com/paulosalonso/spel-builder.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>spel-builder-1.1.1</tag>
     </scm>
 
     <properties>

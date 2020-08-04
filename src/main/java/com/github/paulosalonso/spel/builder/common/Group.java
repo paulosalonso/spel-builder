@@ -4,7 +4,7 @@ public abstract class Group extends Expression {
 
     private Group() {}
 
-    public static Group group(Logical expression) {
+    public static Group group(Expression expression) {
         return new Group() {
             @Override
             protected String getPrefix() {

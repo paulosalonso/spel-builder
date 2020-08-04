@@ -26,7 +26,10 @@ public abstract class Instance<T extends Instance> extends Expression {
     @Override
     public String build() {
         if(ChainState.IDLE.equals(chainState)) {
-            return methodChain;
+            String buildResult = methodChain;
+            methodChain = "";
+            chainState = ChainState.STARTING;
+            return buildResult;
         }
 
         return super.build();
@@ -45,8 +48,8 @@ public abstract class Instance<T extends Instance> extends Expression {
     enum ChainState {
         STARTING(""),
         IDLE(""),
-        WAITING_AND(" and "),
-        WAITING_OR(" or ");
+        WAITING_AND(" && "),
+        WAITING_OR(" || ");
 
         private final String operator;
 

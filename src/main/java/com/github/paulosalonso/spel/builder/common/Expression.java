@@ -14,6 +14,10 @@ public abstract class Expression {
         return Or.or(this, expression);
     }
 
+    public Group group() {
+        return Group.group(this);
+    }
+
     public String build() {
         return String.format("%s%s%s", getPrefix(), getName(), getSuffix());
     }

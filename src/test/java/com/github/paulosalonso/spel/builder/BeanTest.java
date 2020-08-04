@@ -79,7 +79,7 @@ public class BeanTest {
                 .method("secondChainMethod")
                 .build();
 
-        assertEquals("@someBeanName.firstChainMethod() and @someBeanName.secondChainMethod()", spel);
+        assertEquals("@someBeanName.firstChainMethod() && @someBeanName.secondChainMethod()", spel);
     }
 
     @Test
@@ -90,7 +90,7 @@ public class BeanTest {
                 .method("secondChainMethod", stringParameter("parameterA"), stringParameter("parameterB"))
                 .build();
 
-        assertEquals("@someBeanName.firstChainMethod('parameterA') and @someBeanName.secondChainMethod('parameterA', 'parameterB')", spel);
+        assertEquals("@someBeanName.firstChainMethod('parameterA') && @someBeanName.secondChainMethod('parameterA', 'parameterB')", spel);
     }
 
     @Test
@@ -101,7 +101,7 @@ public class BeanTest {
                 .method("secondChainMethod")
                 .build();
 
-        assertEquals("@someBeanName.firstChainMethod() or @someBeanName.secondChainMethod()", spel);
+        assertEquals("@someBeanName.firstChainMethod() || @someBeanName.secondChainMethod()", spel);
     }
 
     @Test
@@ -114,7 +114,7 @@ public class BeanTest {
                 .method("thirdChainMethod")
                 .build();
 
-        assertEquals("@someBeanName.firstChainMethod() and @someBeanName.secondChainMethod() or @someBeanName.thirdChainMethod()", spel);
+        assertEquals("@someBeanName.firstChainMethod() && @someBeanName.secondChainMethod() || @someBeanName.thirdChainMethod()", spel);
     }
 
 }

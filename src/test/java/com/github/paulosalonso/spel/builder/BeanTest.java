@@ -83,6 +83,17 @@ public class BeanTest {
     }
 
     @Test
+    public void testChainedMethodCallWithParametersFromBeanBuild() {
+        String spel = bean("someBeanName")
+                .method("firstChainMethod", stringParameter("parameterA"))
+                .chain()
+                .method("secondChainMethod", stringParameter("parameterA"), stringParameter("parameterB"))
+                .build();
+
+        assertEquals("@someBeanName.firstChainMethod('parameterA').secondChainMethod('parameterA', 'parameterB')", spel);
+    }
+
+    @Test
     public void testAndChainedMethodCallWithParametersFromBeanBuild() {
         String spel = bean("someBeanName")
                 .method("firstChainMethod", stringParameter("parameterA"))

@@ -30,6 +30,8 @@ public abstract class Instance<T extends Instance> extends Expression {
             methodChain = "";
             chainState = ChainState.STARTING;
             return buildResult;
+        } else if (ChainState.WAITING_CHAIN.equals(chainState)) {
+            return methodChain;
         }
 
         return super.build();
@@ -45,9 +47,15 @@ public abstract class Instance<T extends Instance> extends Expression {
         return (T) this;
     }
 
+    protected T chain() {
+        chainState = ChainState.WAITING_CHAIN;
+        return (T) this;
+    }
+
     enum ChainState {
         STARTING(""),
         IDLE(""),
+        WAITING_CHAIN("."),
         WAITING_AND(" && "),
         WAITING_OR(" || ");
 

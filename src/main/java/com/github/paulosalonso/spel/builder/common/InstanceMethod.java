@@ -39,6 +39,10 @@ public abstract class InstanceMethod<T extends Instance> extends Method {
         return (T) instance.or();
     }
 
+    public T chain() {
+        return (T) instance.chain();
+    }
+
     @Override
     public String build() {
         if (ChainState.IDLE.equals(instance.chainState)) {

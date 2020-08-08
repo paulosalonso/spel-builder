@@ -52,8 +52,8 @@
         <jacoco.version>0.8.5</jacoco.version>
         <pitest-maven.version>1.5.1</pitest-maven.version>
 
-        <line.coverage>1</line.coverage>
-        <branch.coverage>1</branch.coverage>
+        <line.coverage>1.0</line.coverage>
+        <branch.coverage>1.0</branch.coverage>
         <mutation.threshold>100</mutation.threshold>
     </properties>
 

@@ -14,6 +14,10 @@ public abstract class Expression {
         return Or.or(this, expression);
     }
 
+    public Ternary tern(Expression left,Expression right){
+        return Ternary.tern(this,left,right);
+    }
+
     public Group group() {
         return Group.group(this);
     }

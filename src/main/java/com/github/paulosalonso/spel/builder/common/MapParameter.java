@@ -2,7 +2,7 @@ package com.github.paulosalonso.spel.builder.common;
 
 public abstract class MapParameter extends Parameter {
 
-  public MapParameter() {
+  private MapParameter() {
 
   }
 

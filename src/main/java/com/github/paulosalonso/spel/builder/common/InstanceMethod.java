@@ -2,7 +2,9 @@ package com.github.paulosalonso.spel.builder.common;
 
 import com.github.paulosalonso.spel.builder.common.Instance.ChainState;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class InstanceMethod<T extends Instance> extends Method {
 
@@ -16,7 +18,7 @@ public abstract class InstanceMethod<T extends Instance> extends Method {
         return new InstanceMethod(instance) {
             @Override
             public List<Parameter> getParameters() {
-                return List.of(parameters);
+                return Arrays.stream(parameters).collect(Collectors.toList());
             }
 
             @Override

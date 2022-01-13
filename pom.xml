@@ -10,40 +10,40 @@
     <description>A facilitator for creating Spring expressions (SpEL).</description>
     <url>https://github.com/paulosalonso/spel-builder</url>
 
-    <developers>
-        <developer>
-            <id>paulosalonso</id>
-            <name>Paulo Silas Alonso</name>
-            <email>paulo_alonso_@hotmail.com</email>
-        </developer>
-    </developers>
+<!--    <developers>-->
+<!--        <developer>-->
+<!--            <id>paulosalonso</id>-->
+<!--            <name>Paulo Silas Alonso</name>-->
+<!--            <email>paulo_alonso_@hotmail.com</email>-->
+<!--        </developer>-->
+<!--    </developers>-->
 
-    <licenses>
-        <license>
-            <name>GNU General Public License v3.0</name>
-            <url>https://github.com/paulosalonso/spel-builder/blob/master/LICENSE</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
+<!--    <licenses>-->
+<!--        <license>-->
+<!--            <name>GNU General Public License v3.0</name>-->
+<!--            <url>https://github.com/paulosalonso/spel-builder/blob/master/LICENSE</url>-->
+<!--            <distribution>repo</distribution>-->
+<!--        </license>-->
+<!--    </licenses>-->
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
+<!--    <distributionManagement>-->
+<!--        <snapshotRepository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--        </snapshotRepository>-->
 
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
+<!--        <repository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+<!--        </repository>-->
+<!--    </distributionManagement>-->
 
-    <scm>
-        <url>https://github.com/paulosalonso/spel-builder.git</url>
-        <connection>scm:git:https://github.com/paulosalonso/spel-builder.git</connection>
-        <developerConnection>scm:git:https://github.com/paulosalonso/spel-builder.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
+<!--    <scm>-->
+<!--        <url>https://github.com/paulosalonso/spel-builder.git</url>-->
+<!--        <connection>scm:git:https://github.com/paulosalonso/spel-builder.git</connection>-->
+<!--        <developerConnection>scm:git:https://github.com/paulosalonso/spel-builder.git</developerConnection>-->
+<!--        <tag>HEAD</tag>-->
+<!--    </scm>-->
 
     <properties>
         <junit.version>4.13.1</junit.version>
@@ -51,7 +51,8 @@
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <jacoco.version>0.8.5</jacoco.version>
         <pitest-maven.version>1.5.1</pitest-maven.version>
-
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <line.coverage>1.0</line.coverage>
         <branch.coverage>1.0</branch.coverage>
         <mutation.threshold>100</mutation.threshold>
@@ -86,145 +87,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>${nexus-staging-maven-plugin.version}</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>${maven-gpg-plugin.version}</version>
-                <configuration>
-                    <skip>${skip.signature}</skip>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                        <configuration>
-                            <homedir>${gpg.homedir}</homedir>
-                            <passphrase>${gpg.passphrase}</passphrase>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>13</source>
-                    <target>13</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-maven</artifactId>
-                <version>${pitest-maven.version}</version>
-                <executions>
-                    <execution>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>mutationCoverage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <skip>${skip.mutation}</skip>
-                    <mutationThreshold>${mutation.threshold}</mutationThreshold>
-                    <targetClasses>
-                        <param>com.github.paulosalonso.*</param>
-                    </targetClasses>
-                    <targetTests>
-                        <param>com.github.paulosalonso.*</param>
-                    </targetTests>
-                    <excludedTestClasses>
-                        <param>*IT</param>
-                        <param>*NoMutation</param>
-                    </excludedTestClasses>
-                    <avoidCallsTo>
-                        <avoidCallsTo>java.util.logging</avoidCallsTo>
-                        <avoidCallsTo>org.apache.log4j</avoidCallsTo>
-                        <avoidCallsTo>org.slf4j</avoidCallsTo>
-                        <avoidCallsTo>org.apache.commons.logging</avoidCallsTo>
-                    </avoidCallsTo>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>check</id>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <rule>
-                                    <element>BUNDLE</element>
-                                    <limits>
-                                        <limit>
-                                            <counter>LINE</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>${line.coverage}</minimum>
-                                        </limit>
-                                        <limit>
-                                            <counter>BRANCH</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>${branch.coverage}</minimum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
 
 </project>

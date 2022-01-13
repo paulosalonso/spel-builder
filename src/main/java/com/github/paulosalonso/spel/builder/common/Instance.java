@@ -52,7 +52,7 @@ public abstract class Instance<T extends Instance> extends Expression {
         return (T) this;
     }
 
-    enum ChainState {
+    public enum ChainState {
         STARTING(""),
         IDLE(""),
         WAITING_CHAIN("."),
